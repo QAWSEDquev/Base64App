@@ -89,7 +89,7 @@ android.extra_args = --allow-missing-permissions
 log_level = 2
 
 # (str) Path to build artifact storage
-build_dir = /root/.buildozer
+build_dir = ./.buildozer
 
 # (str) Path to build output (APK files)
 bin_dir = ./bin
