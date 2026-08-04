@@ -31,14 +31,6 @@ jobs:
             libsdl2-mixer-dev libsdl2-ttf-dev \
             ccache
 
-      - name: Accept Android SDK licenses
-        run: |
-          mkdir -p ~/.android
-          echo "8933bad161af4178b1185d1a37fbf41ea5269c55" > ~/.android/repositories.cfg
-          yes | sdkmanager --licenses 2>/dev/null || true
-          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses 2>/dev/null || true
-          yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses 2>/dev/null || true
-
       - name: Install buildozer
         run: |
           pip install --upgrade pip setuptools wheel
@@ -48,7 +40,9 @@ jobs:
       - name: Build with buildozer
         run: |
           export MAKEFLAGS="-j2"
-          buildozer android debug 2>&1
+          mkdir -p ~/.android
+          echo "8933bad161af4178b1185d1a37fbf41ea5269c55" > ~/.android/repositories.cfg
+          yes | buildozer android debug 2>&1
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
