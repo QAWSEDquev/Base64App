@@ -24,7 +24,16 @@ logger = logging.getLogger(__name__)
 class QueueScreen(Screen):
     """任务队列管理界面 — 手机触屏优化"""
 
-    def build(self):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self._built = False
+
+    def on_pre_enter(self):
+        if not self._built:
+            self._built = True
+            self._build_ui()
+
+    def _build_ui(self):
         layout = BoxLayout(orientation="vertical")
 
         # ---- 顶部工具栏 ----
@@ -76,8 +85,7 @@ class QueueScreen(Screen):
         scroll = ScrollView()
         scroll.add_widget(self.list)
         layout.add_widget(scroll)
-
-        return layout
+        self.add_widget(layout)
 
     def _go_back(self):
         """返回主界面"""
